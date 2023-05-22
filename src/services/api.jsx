@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -16,7 +17,7 @@ class API {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error getting trending movies:', error);
+      Notify.failure(`Error getting trending movies: ${error}`);
       throw error;
     }
   }
@@ -31,7 +32,7 @@ class API {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error searching movies:', error);
+      Notify.failure(`Error searching movies: ${error}`);
       throw error;
     }
   }
@@ -45,7 +46,7 @@ class API {
       });
       return response.data;
     } catch (error) {
-      console.error('Error getting movie details:', error);
+      Notify.failure(`Error getting movie: ${error}`);
       throw error;
     }
   }
@@ -59,7 +60,7 @@ class API {
       });
       return response.data;
     } catch (error) {
-      console.error('Error getting movie details:', error);
+      Notify.failure(`Error getting movie cast: ${error}`);
       throw error;
     }
   }
@@ -73,7 +74,7 @@ class API {
       });
       return response.data.results;
     } catch (error) {
-      console.error('Error getting movie details:', error);
+      Notify.failure(`Error getting movie review: ${error}`);
       throw error;
     }
   }
