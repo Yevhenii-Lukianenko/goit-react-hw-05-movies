@@ -22,7 +22,12 @@ const MoviePage = () => {
   const location = useLocation();
   const { movieId } = useParams();
 
-  useEffect(() => setlastLocation(location), []);
+  useEffect(() => {
+    if (lastLocation.pathname && lastLocation.pathname.includes(movieId)) {
+      return;
+    }
+    return setlastLocation(location);
+  }, [location, movieId, lastLocation]);
 
   const backLinkHref = lastLocation.state?.from ?? '/';
 
