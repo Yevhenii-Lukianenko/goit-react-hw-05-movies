@@ -10,6 +10,9 @@ export const SearchMovieForm = props => {
     <Form
       onSubmit={e => {
         e.preventDefault();
+        if (searchQuery.trim() === '') {
+          return;
+        }
         props.onSubmit(searchQuery);
         setSearchQuery('');
       }}

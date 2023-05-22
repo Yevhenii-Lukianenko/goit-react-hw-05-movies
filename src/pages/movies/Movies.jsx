@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
+import { useParams, Outlet, useSearchParams } from 'react-router-dom';
 import { Section } from './Movies.styled';
 import { Container } from 'components/Container/Container';
 import { SearchMovieForm } from '../../components/SearchMovieForm/SearchMovieForm';
@@ -9,28 +9,26 @@ import API from 'services/api';
 const api = new API();
 
 const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const name = searchParams.get('name');
   const [movies, setMovies] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   const handleSubmitForm = query => {
-    setSearchQuery(query);
+    setSearchParams({ name: query });
   };
 
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      return;
-    }
     const fetchMovies = async () => {
       setLoading(true);
-      const searchMovies = await api.searchMovies(searchQuery);
+      const searchMovies = await api.searchMovies(name);
       setMovies(searchMovies);
       setLoading(false);
     };
 
     fetchMovies();
-  }, [searchQuery]);
+  }, [name]);
 
   return (
     <Section>
