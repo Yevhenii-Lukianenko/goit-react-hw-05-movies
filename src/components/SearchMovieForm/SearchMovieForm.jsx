@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Label, Input, SubmitBtn } from './SearchMovieForm.styled';
 
 export const SearchMovieForm = props => {
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearchQuery = e => setSearchQuery(e.currentTarget.value);
+
+  useEffect(() => {
+    if (props.query) {
+      setSearchQuery(props.query);
+    }
+  }, [props.query]);
 
   return (
     <Form
@@ -14,7 +20,6 @@ export const SearchMovieForm = props => {
           return;
         }
         props.onSubmit(searchQuery);
-        setSearchQuery('');
       }}
     >
       <Label>

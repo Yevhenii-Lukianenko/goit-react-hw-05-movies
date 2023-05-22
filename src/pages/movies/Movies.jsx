@@ -10,25 +10,25 @@ const api = new API();
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const name = searchParams.get('name');
+  const query = searchParams.get('query');
   const [movies, setMovies] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   const handleSubmitForm = query => {
-    setSearchParams({ name: query });
+    setSearchParams({ query });
   };
 
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
-      const searchMovies = await api.searchMovies(name);
+      const searchMovies = await api.searchMovies(query);
       setMovies(searchMovies);
       setLoading(false);
     };
 
     fetchMovies();
-  }, [name]);
+  }, [query]);
 
   return (
     <Section>
@@ -37,7 +37,7 @@ const Movies = () => {
           <Outlet />
         ) : (
           <div>
-            <SearchMovieForm onSubmit={handleSubmitForm} />
+            <SearchMovieForm onSubmit={handleSubmitForm} query={query} />
             {!isLoading ? <MoviesList movies={movies} /> : <Loader />}
           </div>
         )}
